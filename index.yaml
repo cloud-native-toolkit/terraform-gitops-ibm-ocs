@@ -1,0 +1,8 @@
+name: gitops-ibm-ocs
+type: gitops
+description: Module to populate a gitops repo with the resources to provision ibm-ocs
+tags:
+  - tools
+  - gitops
+versions: []
+id: github.com/cloud-native-toolkit/terraform-gitops-ibm-ocs
