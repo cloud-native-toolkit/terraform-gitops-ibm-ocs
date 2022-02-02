@@ -86,3 +86,6 @@ variable "gitops_namespace" {
 
 variable "git_username" {
 }
+variable "kubeseal_namespace" {
+  default = "sealed-secrets"
+}
