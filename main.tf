@@ -1,7 +1,7 @@
 locals {
   name          = "ibm-ocs"
   bin_dir       = module.setup_clis.bin_dir
-  yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}"
+  yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}/templates"
   values_content = {
     image = "quay.io/cloudnativetoolkit/console-link-cronjob"
     imageTag = "latest"
@@ -53,20 +53,7 @@ module seal_secrets {
 }
 
 resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml, module.seal_secrets]
-
-  provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}' --type '${local.type}' --debug"
-
-    environment = {
-      GIT_CREDENTIALS = yamlencode(nonsensitive(var.git_credentials))
-      GITOPS_CONFIG   = yamlencode(var.gitops_config)
-    }
-  }
-}
-
-resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml]
+  depends_on = [null_resource.create_yaml,module.service_account]
 
   triggers = {
     name = local.name
