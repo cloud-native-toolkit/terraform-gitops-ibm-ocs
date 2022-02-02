@@ -6,7 +6,8 @@ data:
   install-odf.sh: |
     #!/bin/bash
 
-    ibmcloud login --apikey $IBMCLOUD_API_KEY -r $REGION -a https://cloud.ibm.com
+    ibmcloud api https://cloud.ibm.com
+    ibmcloud login --apikey $IBMCLOUD_API_KEY -r $REGION
 
     export OCP_VERSION="${ibmcloud ks cluster get -c $CLUSTER --output json | jq -r ".masterKubeVersion" | cut -d. -f-2}"
 
