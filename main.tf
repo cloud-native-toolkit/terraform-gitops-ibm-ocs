@@ -1,8 +1,8 @@
 locals {
   name          = "ibm-ocs"
   bin_dir       = module.setup_clis.bin_dir
-  yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}/templates"
-  tmp_dir      = "${path.cwd}/.tmp/${local.name}/tmp"
+  yaml_dir      = "${path.cwd}/.tmp/${local.name}"
+  tmp_dir      = "${path.cwd}/.tmp/tmp"
 
   values_content = {
     image = "quay.io/cloudnativetoolkit/console-link-cronjob"
@@ -24,7 +24,7 @@ module setup_clis {
 
 resource null_resource create_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}/chart/${local.name}/'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.values_content)
@@ -49,7 +49,7 @@ module seal_secrets {
   source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.0.0"
 
   source_dir    = local.tmp_dir
-  dest_dir      = "${local.yaml_dir}"
+  dest_dir      = "${local.yaml_dir}/chart/${local.name}/templates"
   kubeseal_cert = var.kubeseal_cert
   label         = "odf-key"
 }
