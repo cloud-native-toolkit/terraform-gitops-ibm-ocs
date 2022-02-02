@@ -13,7 +13,7 @@ spec:
             defaultMode: 0777
       containers:
         - name: job
-          image: "{{ printf "%s:%s" .Values.image }}:{{ .Values.imageTag }}"
+          image: "{{ printf "%s:%s" .Values.image .Values.imageTag }}"
           volumeMounts:
             - mountPath: /scripts
               name: scripts
