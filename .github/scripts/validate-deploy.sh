@@ -51,12 +51,6 @@ else
 fi
 
 
-
-#sleep for 10m for debugging
-sleep 5m 
-
-
-
 count=0
 until kubectl get pods -A | grep ibm-ocs-operator-controller-manager || [[ $count -eq 50 ]]; do
   echo "Waiting for pod/ibm-ocs-operator-controller-manager"
