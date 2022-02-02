@@ -50,18 +50,21 @@ else
   sleep 30
 fi
 
-kubectl get pods -A | grep ibm-ocs-operator-controller-manager
 
 
-DEPLOYMENT="${COMPONENT_NAME}-${BRANCH}"
+#sleep for 10m for debugging
+sleep 10m 
+
+
+
 count=0
-until kubectl get pods -A | grep ibm-ocs-operator-controller-manager || [[ $count -eq 20 ]]; do
+until kubectl get pods -A | grep ibm-ocs-operator-controller-manager || [[ $count -eq 50 ]]; do
   echo "Waiting for pod/ibm-ocs-operator-controller-manager"
   count=$((count + 1))
   sleep 15
 done
 
-if [[ $count -eq 20 ]]; then
+if [[ $count -eq 50 ]]; then
   echo "Timed out waiting for pod/ibm-ocs-operator-controller-manager"
   exit 1
 fi
