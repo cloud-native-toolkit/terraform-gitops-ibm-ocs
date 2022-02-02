@@ -24,7 +24,7 @@ module setup_clis {
 
 resource null_resource create_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}/chart/${local.name}/'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}/'"
 
     environment = {
       VALUES_CONTENT = yamlencode(local.values_content)
@@ -44,7 +44,7 @@ resource null_resource create_secrets {
 }
 
 module seal_secrets {
-  depends_on = [null_resource.create_secrets]
+  depends_on = [null_resource.create_secrets,null_resource.create_yaml]
 
   source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.0.0"
 
