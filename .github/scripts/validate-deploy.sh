@@ -53,7 +53,7 @@ fi
 
 
 #sleep for 10m for debugging
-sleep 10m 
+sleep 5m 
 
 
 
