@@ -6,6 +6,7 @@ data:
   install-odf.sh: |
     #!/bin/bash
 
+    ibmcloud config --check-version=false
     ibmcloud api https://cloud.ibm.com
     ibmcloud login --apikey $IBMCLOUD_API_KEY -r $REGION
 
