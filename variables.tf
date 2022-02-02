@@ -79,3 +79,14 @@ variable "server_name" {
   description = "The name of the server"
   default     = "default"
 }
+
+
+variable "cluster_name" {
+  type        = string
+  description = "The name of the ROKS cluster where ODF will be installed"
+}
+
+variable "region" {
+  type        = string
+  description = "The region where the cluster is deployed"
+}

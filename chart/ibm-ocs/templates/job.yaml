@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: Job
+metadata:
+  name: ibm-odf-job
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          volumes:
+            - name: scripts
+              configMap:
+                name: ibm-odf-job-config
+                defaultMode: 0777
+          containers:
+            - name: job
+              image: "{{ printf "%s:%s" .Values.image }}:{{ .Values.imageTag }}"
+              volumeMounts:
+                - mountPath: /scripts
+                  name: scripts
+              env:
+                - name: JOB_NAME
+                  value: "ibm-odf-job"
+                - name: CLUSTER
+                  value: {{ .Values.cluster }}
+                - name: REGION
+                  value: {{ .Values.region }}
+                - name: IBMCLOUD_API_KEY
+                  valueFrom: 
+                    secretKeyRef: 
+                      name: "apikey"
+                      key: "IBMCLOUD_API_KEY"
+              command:
+                - /bin/sh
+              args:
+                - -c
+                - /scripts/install-odf.sh
