@@ -10,8 +10,6 @@ mkdir -p "${DEST_DIR}"
 
 ## Add logic here to put the yaml resource content in DEST_DIR
 
-find "${DEST_DIR}" -name "*"
-
 kubectl create secret generic -n "${NAMESPACE}" apikey \
   --from-literal=IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
   --dry-run=client \

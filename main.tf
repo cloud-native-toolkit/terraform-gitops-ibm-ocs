@@ -2,6 +2,8 @@ locals {
   name          = "ibm-ocs"
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}/templates"
+  tmp_dir      = "${path.cwd}/.tmp/${local.name}/tmp"
+  
   values_content = {
     image = "quay.io/cloudnativetoolkit/console-link-cronjob"
     imageTag = "latest"
@@ -47,13 +49,13 @@ module seal_secrets {
   source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.0.0"
 
   source_dir    = local.tmp_dir
-  dest_dir      = "${local.yaml_dir}/templates"
+  dest_dir      = "${local.yaml_dir}"
   kubeseal_cert = var.kubeseal_cert
   label         = "odf-key"
 }
 
 resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml,module.service_account]
+  depends_on = [null_resource.create_yaml,module.create_secrets]
 
   triggers = {
     name = local.name
