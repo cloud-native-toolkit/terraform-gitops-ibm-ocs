@@ -5,8 +5,8 @@ locals {
   tmp_dir      = "${path.cwd}/.tmp/tmp"
 
   values_content = {
-    image = "quay.io/cloudnativetoolkit/console-link-cronjob"
-    imageTag = "latest"
+    image = "quay.io/ibmgaragecloud/cli-tools"
+    imageTag = "v0.15"
     cluster = var.cluster_name
     region = var.region
   }
