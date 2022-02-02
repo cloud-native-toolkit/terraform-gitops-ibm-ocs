@@ -11,12 +11,16 @@ spec:
           configMap:
             name: ibm-odf-job-config
             defaultMode: 0777
+        - name: ephemeral
+          emptyDir: {}
       containers:
         - name: job
           image: "{{ printf "%s:%s" .Values.image .Values.imageTag }}"
           volumeMounts:
             - mountPath: /scripts
               name: scripts
+            - mountPath: "/home/devops"
+              name: ephemeral
           env:
             - name: JOB_NAME
               value: "ibm-odf-job"
