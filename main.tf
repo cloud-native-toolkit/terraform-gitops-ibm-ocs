@@ -3,7 +3,7 @@ locals {
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}/templates"
   tmp_dir      = "${path.cwd}/.tmp/${local.name}/tmp"
-  
+
   values_content = {
     image = "quay.io/cloudnativetoolkit/console-link-cronjob"
     imageTag = "latest"
@@ -55,7 +55,7 @@ module seal_secrets {
 }
 
 resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml,module.create_secrets]
+  depends_on = [null_resource.create_yaml,module.seal_secrets]
 
   triggers = {
     name = local.name

@@ -8,4 +8,5 @@ module "gitops_module" {
   kubeseal_cert = module.gitops.sealed_secrets_cert
   cluster_name = var.cluster_name
   region = var.region
+  ibmcloud_api_key = var.ibmcloud_api_key
 }
