@@ -8,7 +8,8 @@ data:
 
     ibmcloud config --check-version=false
     ibmcloud api https://cloud.ibm.com
-    ibmcloud login --apikey $IBMCLOUD_API_KEY -r $REGION
+    ibmcloud target -r $REGION
+    ibmcloud login --apikey $IBMCLOUD_API_KEY
 
     export OCP_VERSION="${ibmcloud ks cluster get -c $CLUSTER --output json | jq -r ".masterKubeVersion" | cut -d. -f-2}"
 
