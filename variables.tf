@@ -103,7 +103,7 @@ variable "job_container_image" {
   default     = "quay.io/ibmgaragecloud/cli-tools"
 }
 
-variable "job_container_image" {
+variable "job_container_image_tag" {
   type        = string
   description = "The the container image tag"
   default     = "v0.15"

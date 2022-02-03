@@ -5,8 +5,8 @@ locals {
   tmp_dir      = "${path.cwd}/.tmp/tmp"
 
   values_content = {
-    image = "quay.io/ibmgaragecloud/cli-tools"
-    imageTag = "v0.15"
+    image = var.job_container_image
+    imageTag = var.job_container_image_tag
     cluster = var.cluster_name
     region = var.region
   }
