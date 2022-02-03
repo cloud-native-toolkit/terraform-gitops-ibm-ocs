@@ -11,6 +11,8 @@ data:
     ibmcloud target -r $REGION
     ibmcloud login --apikey $IBMCLOUD_API_KEY
 
+    ibmcloud plugin install kubernetes-service -f
+
     export OCP_VERSION="${ibmcloud ks cluster get -c $CLUSTER --output json | jq -r ".masterKubeVersion" | cut -d. -f-2}"
 
     ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER --version "${OCP_VERSION}.0"
