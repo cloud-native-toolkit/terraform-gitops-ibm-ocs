@@ -13,6 +13,10 @@ data:
 
     ibmcloud plugin install kubernetes-service -f
 
+    curl -LO https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
+    chmod a+x jq-linux64 && \
+    sudo mv jq-linux64 /usr/local/bin/jq
+
     export OCP_VERSION="${ibmcloud ks cluster get -c $CLUSTER --output json | jq -r ".masterKubeVersion" | cut -d. -f-2}"
 
     ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER --version "${OCP_VERSION}.0"
