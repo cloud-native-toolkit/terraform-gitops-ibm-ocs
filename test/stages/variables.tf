@@ -10,6 +10,11 @@ variable "ibmcloud_api_key" {
   description = "The api key for IBM Cloud access"
 }
 
+variable "region" {
+  type        = string
+  description = "The region where the cluster is deployed"
+}
+
 variable "server_url" {
   type        = string
 }
@@ -80,4 +85,7 @@ variable "gitops_namespace" {
 }
 
 variable "git_username" {
+}
+variable "kubeseal_namespace" {
+  default = "sealed-secrets"
 }

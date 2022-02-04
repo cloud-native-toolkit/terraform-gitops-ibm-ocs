@@ -79,3 +79,32 @@ variable "server_name" {
   description = "The name of the server"
   default     = "default"
 }
+
+
+variable "cluster_name" {
+  type        = string
+  description = "The name of the ROKS cluster where ODF will be installed"
+}
+
+variable "region" {
+  type        = string
+  description = "The region where the cluster is deployed"
+}
+
+variable "ibmcloud_api_key" {
+  type        = string
+  description = "The api key for IBM Cloud access"
+}
+
+
+variable "job_container_image" {
+  type        = string
+  description = "The the container image that the job will be executed within"
+  default     = "quay.io/ibmgaragecloud/cli-tools"
+}
+
+variable "job_container_image_tag" {
+  type        = string
+  description = "The the container image tag"
+  default     = "v0.15"
+}

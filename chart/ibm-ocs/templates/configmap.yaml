@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ibm-odf-job-config
+data:
+  install-odf.sh: |
+    #!/bin/bash
+
+    ibmcloud config --check-version=false
+    ibmcloud api https://cloud.ibm.com
+    ibmcloud target -r $REGION
+    ibmcloud login --apikey $IBMCLOUD_API_KEY
+
+    ibmcloud plugin install kubernetes-service -f
+
+    export OCP_VERSION=$( ibmcloud ks cluster get -c $CLUSTER --json | grep masterKubeVersion | cut -d. -f-2 | rev | cut -d\" -f 1 | rev )
+
+    ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER --version "${OCP_VERSION}.0" -f
+

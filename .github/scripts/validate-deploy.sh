@@ -5,7 +5,7 @@ GIT_TOKEN=$(cat git_token)
 
 export KUBECONFIG=$(cat .kubeconfig)
 NAMESPACE=$(cat .namespace)
-COMPONENT_NAME=$(jq -r '.name // "my-module"' gitops-output.json)
+COMPONENT_NAME=$(jq -r '.name // "ibm-ocs"' gitops-output.json)
 BRANCH=$(jq -r '.branch // "main"' gitops-output.json)
 SERVER_NAME=$(jq -r '.server_name // "default"' gitops-output.json)
 LAYER=$(jq -r '.layer_dir // "2-services"' gitops-output.json)
@@ -50,21 +50,21 @@ else
   sleep 30
 fi
 
-DEPLOYMENT="${COMPONENT_NAME}-${BRANCH}"
+
 count=0
-until kubectl get deployment "${DEPLOYMENT}" -n "${NAMESPACE}" || [[ $count -eq 20 ]]; do
-  echo "Waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
+until kubectl get pods -A | grep ibm-ocs-operator-controller-manager || [[ $count -eq 30 ]]; do
+  echo "Waiting for pod/ibm-ocs-operator-controller-manager"
   count=$((count + 1))
   sleep 15
 done
 
-if [[ $count -eq 20 ]]; then
-  echo "Timed out waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
-  kubectl get all -n "${NAMESPACE}"
+if [[ $count -eq 30 ]]; then
+  echo "Timed out waiting for pod/ibm-ocs-operator-controller-manager"
   exit 1
 fi
 
-kubectl rollout status "deployment/${DEPLOYMENT}" -n "${NAMESPACE}" || exit 1
+kubectl get pods -n openshift-storage
+
 
 cd ..
 rm -rf .testrepo
