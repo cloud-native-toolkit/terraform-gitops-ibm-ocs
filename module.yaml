@@ -1,6 +1,6 @@
 name: gitops-ibm-ocs
 type: gitops
-description: Module to populate a gitops repo with the resources to provision ibm-ocs
+description: Module to populate a gitops repo with the resources to provision ibm-ocs using the OpenShift Data Foundation add-on for ROKS clusters.
 tags:
   - tools
   - gitops
