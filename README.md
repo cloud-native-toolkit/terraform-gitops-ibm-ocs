@@ -1,6 +1,6 @@
-# IBM-OCS
+# IBM-ODF
 
-This module will install OCS via OpenShift Data Foundation for OpenShift/ROKS clusters on IBM Cloud.
+This module will install OpenShift Data Foundation for OpenShift/ROKS clusters on IBM Cloud.
 Installation happens inside of a script, within a `Job` that is executed on the cluster and configured using the GitOps approach.   
 
 The job runs within the `"quay.io/ibmgaragecloud/cli-tools"` container, uses the IBM Cloud CLI to install the OpenShift Data Foundation add-on, because OCS cannot be installed on ROKS clusters using the helm chart.
@@ -34,7 +34,7 @@ This module makes use of the output from other modules:
 
 ```hcl-terraform
 module "gitops_module" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-ocs"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-odf"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials

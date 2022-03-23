@@ -1,5 +1,5 @@
 locals {
-  name          = "ibm-ocs"
+  name          = "ibm-odf"
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}"
   tmp_dir      = "${path.cwd}/.tmp/tmp"
