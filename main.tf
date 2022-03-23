@@ -1,5 +1,5 @@
 locals {
-  name          = "ibm-ocs"
+  name          = "ibm-odf"
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}"
   tmp_dir      = "${path.cwd}/.tmp/tmp"
@@ -46,7 +46,7 @@ resource null_resource create_secrets {
 module seal_secrets {
   depends_on = [null_resource.create_secrets,null_resource.create_yaml]
 
-  source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.0.0"
+  source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git"
 
   source_dir    = local.tmp_dir
   dest_dir      = "${local.yaml_dir}/templates"
