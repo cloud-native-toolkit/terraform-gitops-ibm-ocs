@@ -19,7 +19,10 @@ locals {
 }
 
 module setup_clis {
-  source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
+  source  = "cloud-native-toolkit/clis/util"
+  version = "1.13.0"
+
+  clis = ["kubectl", "jq", "igc"]
 }
 
 resource null_resource create_yaml {
@@ -37,6 +40,7 @@ resource null_resource create_secrets {
     command = "${path.module}/scripts/create-secrets.sh '${var.namespace}' '${local.tmp_dir}'"
 
     environment = {
+      BIN_DIR = module.setup_clis.bin_dir
       IBMCLOUD_API_KEY = var.ibmcloud_api_key
       NAMESPACE = var.namespace
     }
@@ -55,14 +59,37 @@ module seal_secrets {
 }
 
 resource null_resource setup_gitops {
-  depends_on = [null_resource.create_yaml,module.seal_secrets]
+  depends_on = [null_resource.create_yaml, module.seal_secrets]
+
+  triggers = {
+    name = local.name
+    namespace = var.namespace
+    yaml_dir = local.yaml_dir
+    server_name = var.server_name
+    layer = local.layer
+    type = local.type
+    git_credentials = yamlencode(var.git_credentials)
+    gitops_config   = yamlencode(var.gitops_config)
+    bin_dir = local.bin_dir
+  }
 
   provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.name}' -n '${var.namespace}' --contentDir '${local.yaml_dir}' --serverName '${var.server_name}' -l '${local.layer}'"
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --contentDir '${self.triggers.yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}'"
 
     environment = {
-      GIT_CREDENTIALS = nonsensitive(yamlencode(var.git_credentials))
-      GITOPS_CONFIG   = yamlencode(var.gitops_config)
+      GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
+      GITOPS_CONFIG   = self.triggers.gitops_config
+    }
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "${self.triggers.bin_dir}/igc gitops-module '${self.triggers.name}' -n '${self.triggers.namespace}' --delete --contentDir '${self.triggers.yaml_dir}' --serverName '${self.triggers.server_name}' -l '${self.triggers.layer}' --type '${self.triggers.type}' --debug"
+
+    environment = {
+      GIT_CREDENTIALS = nonsensitive(self.triggers.git_credentials)
+      GITOPS_CONFIG   = self.triggers.gitops_config
     }
   }
 }
+
