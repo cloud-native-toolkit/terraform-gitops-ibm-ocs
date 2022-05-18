@@ -8,10 +8,13 @@ DEST_DIR="$2"
 
 mkdir -p "${DEST_DIR}"
 
+if [[ -n "${BIN_DIR}" ]]; then
+  export PATH="${BIN_DIR}:${PATH}"
+fi
+
 ## Add logic here to put the yaml resource content in DEST_DIR
 
 kubectl create secret generic -n "${NAMESPACE}" apikey \
   --from-literal=IBMCLOUD_API_KEY="${IBMCLOUD_API_KEY}" \
   --dry-run=client \
   -o yaml > "${DEST_DIR}/secret.yaml"
-  
