@@ -39,7 +39,5 @@ versions:
         moduleRef:
           id: gitops
           output: sealed_secrets_cert
-      - name: region
-        scope: global
       - name: ibmcloud_api_key
         scope: global

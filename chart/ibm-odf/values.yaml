@@ -1,0 +1,6 @@
+image: "quay.io/ibmgaragecloud/cli-tools"
+imageTag: "v1.1"
+
+serviceAccount:
+  create: true
+  name: ibm-odf

@@ -2,9 +2,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-odf-job
+  labels:
+    {{- include "ibm-odf.labels" . | nindent 4 }}
 spec:
   template:
     spec:
+      serviceAccountName: {{ include "ibm-odf.serviceAccountName" . }}
       restartPolicy: Never
       volumes:
         - name: scripts
@@ -22,19 +25,16 @@ spec:
             - mountPath: "/home/devops"
               name: ephemeral
           env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
             - name: JOB_NAME
               value: "ibm-odf-job"
-            - name: CLUSTER
-              value: {{ .Values.cluster }}
-            - name: REGION
-              value: {{ .Values.region }}
             - name: IBMCLOUD_API_KEY
               valueFrom: 
                 secretKeyRef: 
                   name: "apikey"
                   key: "IBMCLOUD_API_KEY"
           command:
-            - /bin/sh
-          args:
-            - -c
             - /scripts/install-odf.sh
