@@ -45,10 +45,10 @@ spec:
               value: {{ .Values.ocsUpgrade }}
             - name: CLUSTERENCRYPTION
               value: {{ .Values.clusterEncryption }}
-            - name: MONSIZE
-              value: {{ .Values.monSize }}
-            - name: MONSTORAGECLASSNAME
-              value: {{ .Values.monStorageClassName }}
+            # - name: MONSIZE
+            #   value: {{ .Values.monSize }}
+            # - name: MONSTORAGECLASSNAME
+            #   value: {{ .Values.monStorageClassName }}
           command:
             - /bin/sh
           args:
