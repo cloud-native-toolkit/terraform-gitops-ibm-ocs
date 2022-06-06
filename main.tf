@@ -4,13 +4,6 @@ locals {
   yaml_dir      = "${path.cwd}/.tmp/${local.name}"
   tmp_dir      = "${path.cwd}/.tmp/tmp"
 
-  values_content = {
-    image = var.job_container_image
-    imageTag = var.job_container_image_tag
-    cluster = var.cluster_name
-    region = var.region
-  }
-
   layer = "infrastructure"
   type  = "base"
   application_branch = "main"
@@ -28,10 +21,6 @@ module setup_clis {
 resource null_resource create_yaml {
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}/'"
-
-    environment = {
-      VALUES_CONTENT = yamlencode(local.values_content)
-    }
   }
 }
 

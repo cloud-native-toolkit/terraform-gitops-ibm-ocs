@@ -55,7 +55,7 @@ count=0
 until kubectl get pods -A | grep ibm-ocs-operator-controller-manager || [[ $count -eq 30 ]]; do
   echo "Waiting for pod/ibm-ocs-operator-controller-manager"
   count=$((count + 1))
-  sleep 15
+  sleep 30
 done
 
 if [[ $count -eq 30 ]]; then

@@ -2,9 +2,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: ibm-odf-job
+  labels:
+    {{- include "ibm-odf.labels" . | nindent 4 }}
 spec:
   template:
     spec:
+      serviceAccountName: {{ include "ibm-odf.serviceAccountName" . }}
       restartPolicy: Never
       volumes:
         - name: scripts
@@ -22,6 +25,10 @@ spec:
             - mountPath: "/home/devops"
               name: ephemeral
           env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
             - name: JOB_NAME
               value: "ibm-odf-job"
             - name: CLUSTER
@@ -50,7 +57,4 @@ spec:
             # - name: MONSTORAGECLASSNAME
             #   value: {{ .Values.monStorageClassName }}
           command:
-            - /bin/sh
-          args:
-            - -c
             - /scripts/install-odf.sh

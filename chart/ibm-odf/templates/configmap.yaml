@@ -2,20 +2,47 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ibm-odf-job-config
+  labels:
+    {{- include "ibm-odf.labels" . | nindent 4 }}
 data:
   install-odf.sh: |
     #!/bin/bash
 
+    if [[ -z "${NODE_NAME}" ]]; then
+      echo "NODE_NAME environment variable must be set" >&2
+      exit 1
+    fi
+
+    if [[ -z "${IBMCLOUD_API_KEY}" ]]; then
+      echo "IBMCLOUD_API_KEY must be provided as an environment variable" >&2
+      exit 1
+    fi
+
+    if ! command -v jq 1> /dev/null 2> /dev/null; then
+      echo "jq command not found" >&2
+      exit 1
+    fi
+
+    if ! command -v kubectl 1> /dev/null 2> /dev/null; then
+      echo "kubectl command not found" >&2
+      exit 1
+    fi
+
+    NODE_JSON=$(kubectl get node "${NODE_NAME}" -o json)
+
+    REGION=$(echo "${NODE_JSON}" | jq -r '.metadata.labels["ibm-cloud.kubernetes.io/region"]')
+    CLUSTER_ID=$(echo "${NODE_JSON}" | jq -r '.spec.providerID' | sed -E 's~.*/([^/]+)/[^/]+~\1~g')
+
     ibmcloud config --check-version=false
     ibmcloud api https://cloud.ibm.com
     ibmcloud target -r $REGION
-    ibmcloud login --apikey $IBMCLOUD_API_KEY
+    ibmcloud login
 
     ibmcloud plugin install kubernetes-service -f
 
-    export OCP_VERSION=$( ibmcloud ks cluster get -c $CLUSTER --json | grep masterKubeVersion | cut -d. -f-2 | rev | cut -d\" -f 1 | rev )
+    export OCP_VERSION=$(ibmcloud ks cluster get -c $CLUSTER_ID --json | grep masterKubeVersion | cut -d. -f-2 | rev | cut -d\" -f 1 | rev)
 
-    ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER --version "${OCP_VERSION}.0" -f
+    ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER_ID --version "${OCP_VERSION}.0" -f
 
     ibmcloud ks cluster addon ls -c ${CLUSTER} |  grep openshift-data-foundation | grep "Addon Ready"
     result=$?
