@@ -130,18 +130,18 @@ variable "clusterEncryption" {
   default = false
 }
 
-# Options required for Openshift 4.7 only
-variable "monSize" {
-  description = "Size of the storage devices that you want to provision for the monitor pods. The devices must be at least 20Gi each"
-  type = string
-  default = "20Gi"
-}
+# # Options required for Openshift 4.7 only
+# variable "monSize" {
+#   description = "Size of the storage devices that you want to provision for the monitor pods. The devices must be at least 20Gi each"
+#   type = string
+#   default = "20Gi"
+# }
 
-variable "monStorageClassName" {
-  description = "Storage class to use for your Monitor pods. For VPC clusters you must specify a block storage class"
-  type = string
-  default = "ibmc-vpc-block-10iops-tier"
-}
+# variable "monStorageClassName" {
+#   description = "Storage class to use for your Monitor pods. For VPC clusters you must specify a block storage class"
+#   type = string
+#   default = "ibmc-vpc-block-10iops-tier"
+# }
 
 variable "job_container_image" {
   type        = string
