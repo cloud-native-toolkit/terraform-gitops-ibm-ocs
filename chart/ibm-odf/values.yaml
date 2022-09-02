@@ -1,5 +1,5 @@
-image: "quay.io/ibmgaragecloud/cli-tools"
-imageTag: "v1.1"
+image: "quay.io/cloudnativetoolkit/cli-tools-ibmcloud"
+imageTag: "v1.2"
 
 serviceAccount:
   create: true
