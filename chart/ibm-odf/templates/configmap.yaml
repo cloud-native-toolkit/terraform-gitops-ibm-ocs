@@ -40,6 +40,11 @@ data:
 
     ibmcloud plugin install kubernetes-service -f
 
+    if ibmcloud oc cluster addon ls -c "${CLUSTER_ID}" | grep -q openshift-data-foundation; then
+      echo "Addon already installed. Nothing to do..."
+      exit 0
+    fi
+
     export OCP_VERSION=$(ibmcloud ks cluster get -c $CLUSTER_ID --json | grep masterKubeVersion | cut -d. -f-2 | rev | cut -d\" -f 1 | rev)
 
     ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER_ID --version "${OCP_VERSION}.0" -f
