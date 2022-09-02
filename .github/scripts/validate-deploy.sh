@@ -41,7 +41,7 @@ set -e
 
 validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${COMPONENT_NAME}" "values.yaml"
 check_k8s_namespace "${NAMESPACE}"
-check_k8s_resource "${NAMESPACE}" pod "ibm-ocs-operator-controller-manager"
+check_k8s_resource kube-system pod "ibm-ocs-operator-controller-manager"
 
 cd ..
 rm -rf .testrepo
