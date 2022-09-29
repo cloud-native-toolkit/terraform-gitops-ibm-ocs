@@ -140,7 +140,7 @@ variable "clusterEncryption" {
 # variable "monStorageClassName" {
 #   description = "Storage class to use for your Monitor pods. For VPC clusters you must specify a block storage class"
 #   type = string
-#   default = "ibmc-vpc-block-10iops-tier"
+#   default = "ibmc-vpc-block-metro-10iops-tier"
 # }
 
 variable "job_container_image" {
