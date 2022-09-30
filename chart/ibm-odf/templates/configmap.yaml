@@ -49,8 +49,8 @@ data:
 
     # Set up parameters based on OCP_VERSION. See https://cloud.ibm.com/docs/openshift?topic=openshift-deploy-odf-vpc&interface=cli#odf-vpc-param-ref
     PARAM_STR='--param "odfDeploy=true" --param "osdStorageClassName: $OSDSTORAGECLASSNAME"
-               --param "osdSize: ODSIZE" --param "numOfOsd: $NUMOFOSD"
-               --param "billingType: BILLINGTYPE" --param "ocsUpgrade: $OCSUPGRADE"
+               --param "osdSize: $ODSIZE" --param "numOfOsd: $NUMOFOSD"
+               --param "billingType: $BILLINGTYPE" --param "ocsUpgrade: $OCSUPGRADE"
                --param "clusterEncryption: $CLUSTERENCRYPTION"'
 
     if [[ $OCP_VERSION == "4.7" ]]
