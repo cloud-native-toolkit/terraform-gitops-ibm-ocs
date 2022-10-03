@@ -91,6 +91,12 @@ variable "osdStorageClassName" {
   default = "ibmc-vpc-block-metro-10iops-tier"
 }
 
+variable "osdDevicePaths" {
+  description = "Please provide IDs of the disks to be used for OSD pods if using local disks or standard classic cluster"
+  type = string
+  default = ""
+}
+
 variable "osdSize" {
   description = "Size of your storage devices. The total storage capacity of your ODF cluster is equivalent to the osdSize x 3 divided by the numOfOsd."
   type = string
@@ -120,7 +126,13 @@ variable "clusterEncryption" {
   default = false
 }
 
-# Options available for Openshift 4.7 only. https://cloud.ibm.com/docs/openshift?topic=openshift-deploy-odf-vpc&interface=cli#odf-vpc-params-47
+variable "workerNodes" {
+  description = "Install on which worker nodes"
+  type = string
+  default = all
+}
+
+# Options available for Openshift 4.7 only. Run command `ibmcloud oc cluster addon options --addon openshift-data-foundation --version 4.7.`
 variable "monSize" {
   description = "Size of the storage devices that you want to provision for the monitor pods. The devices must be at least 20Gi each"
   type = string
@@ -133,7 +145,26 @@ variable "monStorageClassName" {
   default = "ibmc-vpc-block-metro-10iops-tier"
 }
 
-# Options available for Openshift 4.10 only.  See https://cloud.ibm.com/docs/openshift?topic=openshift-deploy-odf-vpc&interface=cli#odf-vpc-params-410
+variable "monDevicePaths" {
+  description = "Please provide IDs of the disks to be used for mon pods if using local disks or standard classic cluster"
+  type = string
+  default = ""
+}
+
+# Options available for Openshift 4.8, 4.9, 4.10 only.  Run command `ibmcloud oc cluster addon options --addon openshift-data-foundation --version <version>.`
+variable "autoDiscoverDevices" {
+  description = "Auto Discover Devices"
+  type = string
+  default = "false"
+}
+
+# Options available for Openshift 4.10 only.  Run command `ibmcloud oc cluster addon options --addon openshift-data-foundation --version <version>.`
+variable "hpcsEncryption" {
+  description = "Use Hyper Protect Crypto Services"
+  type = bool
+  default = false
+}
+
 variable "hpcsServiceName" {
   description = "Enter the name of your Hyper Protect Crypto Services instance. For example: Hyper-Protect-Crypto-Services-eugb"
   type = string
@@ -163,4 +194,3 @@ variable "hpcsTokenUrl" {
   type = string
   default = "false"
 }
-

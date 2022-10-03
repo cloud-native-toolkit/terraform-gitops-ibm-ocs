@@ -36,22 +36,32 @@ spec:
                 secretKeyRef: 
                   name: "apikey"
                   key: "IBMCLOUD_API_KEY"
+            - name: BILLINGTYPE
+              value: {{ .Values.billingType }}
+            - name: CLUSTERENCRYPTION
+              value: {{ .Values.clusterEncryption }}
+            - name: NUMOFOSD
+              value: {{ .Values.numOfOsd }}
+            - name: OCSUPGRADE
+              value: {{ .Values.ocsUpgrade }}
+            - name: OSDDEVICEPATHS
+              value: {{ .Values.osdDevicePaths }}
             - name: OSDSTORAGECLASSNAME
               value: {{ .Values.osdStorageClassName }}
             - name: OSDSIZE
               value: {{ .Values.osdSize }}
-            - name: NUMOFOSD
-              value: {{ .Values.numOfOsd }}
-            - name: BILLINGTYPE
-              value: {{ .Values.billingType }}
-            - name: OCSUPGRADE
-              value: {{ .Values.ocsUpgrade }}
-            - name: CLUSTERENCRYPTION
-              value: {{ .Values.clusterEncryption }}
+            - name: WORKERNODES
+              value: {{ .Values.workerNodes }}
             - name: MONSIZE
               value: {{ .Values.monSize }}
+            - name: MONDEVICEPATHS
+              value: {{ .Values.monDevicePaths }}
             - name: MONSTORAGECLASSNAME
               value: {{ .Values.monStorageClassName }}
+            - name: AUTODISCOVERDEVICES
+              value: {{ .Values.autoDiscoverDevices }}
+            - name: HPCSENCRYPTION
+              value: {{ .Values.hpcsEncryption }}
             - name: HPCSSERVICENAME
               value: {{ .Values.hpcsServiceName }}
             - name: HPCSINSTANCEID
