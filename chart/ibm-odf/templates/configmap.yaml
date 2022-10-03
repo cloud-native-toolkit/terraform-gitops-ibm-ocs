@@ -65,3 +65,4 @@ data:
 
     ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER_ID --version "${OCP_VERSION}.0" ${PARAM_STR} -f
 
+
