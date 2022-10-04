@@ -129,7 +129,7 @@ variable "clusterEncryption" {
 variable "workerNodes" {
   description = "Install on which worker nodes"
   type = string
-  default = all
+  default = "all"
 }
 
 # Options available for Openshift 4.7 only. Run command `ibmcloud oc cluster addon options --addon openshift-data-foundation --version 4.7.`
