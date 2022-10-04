@@ -57,7 +57,7 @@ data:
     then
       PARAM_STR+=" --param \"monSize=${MONSIZE}\" --param \"monStorageClassName=${MONSTORAGECLASSNAME}\" --param \"monDevicePaths=${MONDEVICEPATHS}\""
     else
-      PARAM_STR+=" --param \"autoDiscoverDevices=${AUTODISCOVERDEVICES}\"
+      PARAM_STR+=" --param \"autoDiscoverDevices=${AUTODISCOVERDEVICES}\""
       if [[ $OCP_VERSION == "4.10" ]]
       then
         PARAM_STR+=" --param \"hpcsEncryption=${HPCSENCRYPTION}\" --param \"hpcsServiceName=${HPCSSERVICENAME}\" --param \"hpcsInstanceId=${HPCSINSTANCEID}\"
