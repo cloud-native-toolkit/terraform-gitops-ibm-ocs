@@ -1,50 +1,16 @@
-
-# Resource Group Variables
 variable "resource_group_name" {
   type        = string
   description = "Existing resource group where the IKS cluster will be provisioned."
+  default     = "Default"
+}
+variable "region" {
+  type        = string
+  description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
 }
 
 variable "ibmcloud_api_key" {
   type        = string
-  description = "The api key for IBM Cloud access"
-}
-
-variable "region" {
-  type        = string
-  description = "The region where the cluster is deployed"
-}
-
-variable "server_url" {
-  type        = string
-}
-
-variable "bootstrap_prefix" {
-  type = string
-  default = ""
-}
-
-variable "namespace" {
-  type        = string
-  description = "Namespace for tools"
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "The name of the cluster"
-  default     = ""
-}
-
-variable "cluster_type" {
-  type        = string
-  description = "The type of cluster that should be created (openshift or kubernetes)"
-  default = "ocp4"
-}
-
-variable "cluster_exists" {
-  type        = string
-  description = "Flag indicating if the cluster already exists (true or false)"
-  default     = "true"
+  description = "The IBM Cloud api token"
 }
 
 variable "name_prefix" {
@@ -53,45 +19,58 @@ variable "name_prefix" {
   default     = ""
 }
 
-variable "vpc_cluster" {
+variable "flavor" {
+  type        = string
+  description = "The machine type that will be provisioned for classic infrastructure"
+  default     = "bx2.16x64"
+}
+
+variable "worker_count" {
+  type        = number
+  default     = 3
+}
+
+variable "ocp_version" {
+  type        = string
+  default     = "4.10"
+}
+
+variable "ocp_entitlement" {
+  type        = string
+  description = "Value that is applied to the entitlements for OCP cluster provisioning"
+  default     = "cloud_pak"
+}
+
+variable "force_delete_storage" {
   type        = bool
-  description = "Flag indicating that this is a vpc cluster"
+  description = "Attribute to force the removal of persistent storage associtated with the cluster"
   default     = false
 }
 
-variable "git_token" {
+variable "vpc_public_gateway" {
   type        = string
-  description = "Git token"
+  description = "Flag indicating the public gateway should be created"
+  default     = "true"
 }
 
-variable "git_host" {
+variable "vpc_subnet_count" {
+  type        = number
+  description = "The number of subnets to create for the VPC instance"
+  default     = 1
+}
+
+variable "vpc_subnets" {
   type        = string
-  default     = "github.com"
+  description = "JSON representation of list of object, e.g. [{\"label\"=\"default\"}]"
+  default     = "[]"
 }
 
-variable "git_type" {
-  default = "github"
+variable "vpc_subnet_label" {
+  type        = string
+  default     = "cluster"
 }
 
-variable "git_org" {
-  default = "cloud-native-toolkit-test"
-}
-
-variable "git_repo" {
-  default = "git-module-test"
-}
-
-variable "gitops_namespace" {
-  default = "openshift-gitops"
-}
-
-variable "git_username" {
-}
-
-variable "kubeseal_namespace" {
-  default = "sealed-secrets"
-}
-
+# stage2-mymodule.tf variables
 variable "osdDevicePaths" {
   description = "Please provide IDs of the disks to be used for OSD pods if using local disks or standard classic cluster"
   type = string
@@ -201,3 +180,4 @@ variable "hpcsTokenUrl" {
   type = string
   default = "false"
 }
+

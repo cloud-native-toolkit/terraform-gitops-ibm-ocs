@@ -1,20 +1,23 @@
 terraform {
+  required_version = ">= 0.15"
+
   required_providers {
-    gitops = {
-      source = "cloud-native-toolkit/gitops"
+    ibm = {
+      source = "ibm-cloud/ibm"
+    }
+    random = {
+      source = "hashicorp/random"
+      version = "3.1.0"
     }
   }
 }
 
-module setup_test_clis {
-  source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
-
-  bin_dir = "${path.cwd}/test_bin_dir"
-  clis = ["kubectl", "oc"]
+locals {
+  name_prefix_test = "${var.name_prefix}-${random_string.this.result}"
 }
 
-resource local_file bin_dir {
-  filename = "${path.cwd}/.bin_dir"
-
-  content = module.setup_test_clis.bin_dir
+resource "random_string" "this" {
+  length = 6
+  special = false
+  upper = false
 }
