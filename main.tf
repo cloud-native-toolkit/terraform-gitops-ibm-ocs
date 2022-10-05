@@ -2,8 +2,28 @@ locals {
   name          = "ibm-odf"
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}"
-  tmp_dir      = "${path.cwd}/.tmp/tmp"
-
+  tmp_dir       = "${path.cwd}/.tmp/tmp"
+  values_file   = "value-${var.server_name}.yaml"
+  values_content = {
+    osdDevicePaths = var.osdDevicePaths
+    osdStorageClassName = var.osdStorageClassName
+    osdSize = var.osdSize
+    numOfOsd = var.numOfOsd
+    billingType = var.billingType
+    ocsUpgrade = var.ocsUpgrade
+    clusterEncryption = var.clusterEncryption
+    workerNodes = var.workerNodes
+    monSize = var.monSize
+    monStorageClassName = var.monStorageClassName
+    monDevicePaths = var.monDevicePaths
+    autoDiscoverDevices = var.autoDiscoverDevices
+    hpcsEncryption = var.hpcsEncryption
+    hpcsServiceName = var.hpcsServiceName
+    hpcsInstanceId = var.hpcsInstanceId
+    hpcsSecretName = var.hpcsSecretName
+    hpcsBaseUrl = var.hpcsBaseUrl
+    hpcsTokenUrl = var.hpcsTokenUrl
+  }
   layer = "infrastructure"
   type  = "base"
   application_branch = "main"
@@ -19,7 +39,12 @@ module setup_clis {
 
 resource null_resource create_yaml {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}/'"
+    command = "${path.module}/scripts/create-yaml.sh '${local.name}' '${local.yaml_dir}' '${local.values_file}'"
+
+    environment = {
+      VALUES_CONTENT = yamlencode(local.values_content)
+      BIN_DIR = local.bin_dir
+    }
   }
 }
 
@@ -58,4 +83,5 @@ resource gitops_module module {
   branch = local.application_branch
   config = yamlencode(var.gitops_config)
   credentials = yamlencode(var.git_credentials)
+  value_files = "values.yaml,${local.values_file}"
 }
