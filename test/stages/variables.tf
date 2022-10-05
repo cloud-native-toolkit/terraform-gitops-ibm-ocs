@@ -59,13 +59,13 @@ variable "vpc_cluster" {
   default     = false
 }
 
-# variable "git_token" {
-#   type        = string
-#   description = "Git token"
-# }
+variable "git_token" {
+  type        = string
+  description = "Git token"
+}
 
-# variable "git_username" {
-# }
+variable "git_username" {
+}
 
 # variable "git_host" {
 #   type        = string
