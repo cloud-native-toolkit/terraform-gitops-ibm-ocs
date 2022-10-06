@@ -113,7 +113,8 @@ variable "osdSize" {
 
 variable "numOfOsd" {
   description = "Number object storage daemons (OSDs) that you want to create. ODF creates three times the numOfOsd value."
-  default = 1
+  type = string
+  default = "1"
 }
 
 variable "billingType" {
@@ -124,14 +125,14 @@ variable "billingType" {
 
 variable "ocsUpgrade" {
   description = "Whether to upgrade the major version of your ODF deployment."
-  type = bool
-  default = false
+  type = string
+  default = "false"
 }
 
 variable "clusterEncryption" {
   description = "Enable encryption of storage cluster"
-  type = bool
-  default = false
+type = string
+  default = "false"
 }
 
 variable "workerNodes" {
@@ -169,8 +170,8 @@ variable "autoDiscoverDevices" {
 # Options available for Openshift 4.10 only.  Run command `ibmcloud oc cluster addon options --addon openshift-data-foundation --version <version>.`
 variable "hpcsEncryption" {
   description = "Use Hyper Protect Crypto Services"
-  type = bool
-  default = false
+  type = string
+  default = "false"
 }
 
 variable "hpcsServiceName" {
