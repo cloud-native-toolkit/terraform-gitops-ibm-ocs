@@ -36,41 +36,41 @@ spec:
                 secretKeyRef: 
                   name: "apikey"
                   key: "IBMCLOUD_API_KEY"
-            - name: BILLINGTYPE
-              value: {{ .Values.billingType }}
-            - name: CLUSTERENCRYPTION
-              value: {{ .Values.clusterEncryption }}
-            - name: NUMOFOSD
-              value: {{ .Values.numOfOsd }}
-            - name: OCSUPGRADE
-              value: {{ .Values.ocsUpgrade }}
-            - name: OSDDEVICEPATHS
-              value: {{ .Values.osdDevicePaths }}
-            - name: OSDSTORAGECLASSNAME
-              value: {{ .Values.osdStorageClassName }}
-            - name: OSDSIZE
-              value: {{ .Values.osdSize }}
-            - name: WORKERNODES
-              value: {{ .Values.workerNodes }}
-            - name: MONSIZE
-              value: {{ .Values.monSize }}
-            - name: MONDEVICEPATHS
-              value: {{ .Values.monDevicePaths }}
-            - name: MONSTORAGECLASSNAME
-              value: {{ .Values.monStorageClassName }}
             - name: AUTODISCOVERDEVICES
-              value: {{ .Values.autoDiscoverDevices }}
+              value: "{{ .Values.autoDiscoverDevices }}"
+            - name: BILLINGTYPE
+              value: "{{ .Values.billingType }}"
+            - name: CLUSTERENCRYPTION
+              value: "{{ .Values.clusterEncryption }}"
+            - name: NUMOFOSD
+              value: "{{ .Values.numOfOsd }}"
+            - name: OCSUPGRADE
+              value: "{{ .Values.ocsUpgrade }}"
+            - name: OSDDEVICEPATHS
+              value: "{{ .Values.osdDevicePaths }}"
+            - name: OSDSTORAGECLASSNAME
+              value: "{{ .Values.osdStorageClassName }}"
+            - name: OSDSIZE
+              value: "{{ .Values.osdSize }}"
+            - name: WORKERNODES
+              value: "{{ .Values.workerNodes }}"
+            - name: MONSIZE
+              value: "{{ .Values.monSize }}"
+            - name: MONDEVICEPATHS
+              value: "{{ .Values.monDevicePaths }}"
+            - name: MONSTORAGECLASSNAME
+              value: "{{ .Values.monStorageClassName }}"
             - name: HPCSENCRYPTION
-              value: {{ .Values.hpcsEncryption }}
+              value: "{{ .Values.hpcsEncryption }}"
             - name: HPCSSERVICENAME
-              value: {{ .Values.hpcsServiceName }}
+              value: "{{ .Values.hpcsServiceName }}"
             - name: HPCSINSTANCEID
-              value: {{ .Values.hpcsInstanceId }}
+              value: "{{ .Values.hpcsInstanceId }}"
             - name: HPCSSECRETNAME
-              value: {{ .Values.hpcsSecretName }}
+              value: "{{ .Values.hpcsSecretName }}"
             - name: HPCSBASEURL
-              value: {{ .Values.hpcsBaseUrl }}
+              value: "{{ .Values.hpcsBaseUrl }}"
             - name: HPCSTOKENURL
-              value: {{ .Values.hpcsTokenUrl }}
+              value: "{{ .Values.hpcsTokenUrl }}"
           command:
             - /scripts/install-odf.sh
