@@ -15,9 +15,9 @@ variable "region" {
   description = "The region where the cluster is deployed"
 }
 
-variable "server_url" {
-  type        = string
-}
+# variable "server_url" {
+#   type        = string
+# }
 
 variable "bootstrap_prefix" {
   type = string
@@ -44,7 +44,7 @@ variable "cluster_type" {
 variable "cluster_exists" {
   type        = string
   description = "Flag indicating if the cluster already exists (true or false)"
-  default     = "true"
+  default     = "false"
 }
 
 variable "name_prefix" {
@@ -56,18 +56,19 @@ variable "name_prefix" {
 variable "vpc_cluster" {
   type        = bool
   description = "Flag indicating that this is a vpc cluster"
-  default     = false
+  default     = true
 }
 
 variable "git_token" {
   type        = string
   description = "Git token"
+  default     = ""
 }
 
-variable "git_host" {
-  type        = string
-  default     = "github.com"
-}
+# variable "git_host" {
+#   type        = string
+#   default     = "github.com"
+# }
 
 variable "git_type" {
   default = "github"
@@ -86,7 +87,9 @@ variable "gitops_namespace" {
 }
 
 variable "git_username" {
+  default = ""
 }
+
 variable "kubeseal_namespace" {
   default = "sealed-secrets"
 }

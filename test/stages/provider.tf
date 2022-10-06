@@ -7,3 +7,8 @@ provider "gitops" {
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
+
+provider "ibm" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+  region = var.region
+}
