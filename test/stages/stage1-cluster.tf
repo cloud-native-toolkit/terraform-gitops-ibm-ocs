@@ -24,7 +24,7 @@ module "cluster" {
   worker_count        = 3
   # ocp_version         = var.ocp_version
   flavor              = "bx2.16x64"
-  exists              = var.cluster_exists
+  exists              = "false"
   name_prefix         = local.name_prefix_test
   vpc_name            = module.subnets.vpc_name
   vpc_subnets         = module.subnets.subnets
