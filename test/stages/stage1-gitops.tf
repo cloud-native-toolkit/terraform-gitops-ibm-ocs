@@ -16,7 +16,7 @@ module "gitea" {
 }
 
 module "gitops" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops.git"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops.git?ref=v1.21.0"
 
   gitea_host = module.gitea.host
   gitea_org = module.gitea.org
@@ -28,12 +28,12 @@ module "gitops" {
   sealed_secrets_cert = module.cert.cert
 }
 
-resource null_resource gitops_output {
-  provisioner "local-exec" {
-    command = "echo -n '${module.gitops.config_repo}' > git_repo"
-  }
+# resource null_resource gitops_output {
+#   provisioner "local-exec" {
+#     command = "echo -n '${module.gitops.config_repo}' > git_repo"
+#   }
 
-  provisioner "local-exec" {
-    command = "echo -n '${module.gitops.config_token}' > git_token"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "echo -n '${module.gitops.config_token}' > git_token"
+#   }
+# }
