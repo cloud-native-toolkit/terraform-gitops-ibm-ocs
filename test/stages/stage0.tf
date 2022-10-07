@@ -3,6 +3,9 @@ terraform {
     gitops = {
       source = "cloud-native-toolkit/gitops"
     }
+   ibm = {
+      source = "ibm-cloud/ibm"
+    }
   }
 }
 
@@ -20,7 +23,7 @@ resource local_file bin_dir {
 }
 
 locals {
-  name_prefix_rand = "${var.name_prefix}-${random_string.this.result}"
+  name_prefix_test = "${var.name_prefix}-${random_string.this.result}"
 }
 
 resource "random_string" "this" {
