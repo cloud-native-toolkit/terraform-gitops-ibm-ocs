@@ -48,20 +48,20 @@ data:
     export OCP_VERSION=$(ibmcloud ks cluster get -c $CLUSTER_ID --json | grep masterKubeVersion | cut -d. -f-2 | rev | cut -d\" -f 1 | rev)
 
     # Set up parameters based on OCP_VERSION. See https://cloud.ibm.com/docs/openshift?topic=openshift-deploy-odf-vpc&interface=cli#odf-vpc-param-ref
-    PARAM_STR="--param \"odfDeploy=true\" --param \"osdStorageClassName=${OSDSTORAGECLASSNAME}\" --param \"osdDevicePaths=${OSDDEVICEPATHS}\"
-               --param \"osdSize=${OSDSIZE}\" --param \"numOfOsd=${NUMOFOSD}\"
-               --param \"billingType=${BILLINGTYPE}\" --param \"ocsUpgrade=${OCSUPGRADE}\"
-               --param \"clusterEncryption=${CLUSTERENCRYPTION}\" --param \"workerNodes=${WORKERNODES}\""
+    PARAM_STR="--param odfDeploy=true --param osdStorageClassName=${OSDSTORAGECLASSNAME} --param osdDevicePaths=${OSDDEVICEPATHS}
+               --param osdSize=${OSDSIZE} --param numOfOsd=${NUMOFOSD}
+               --param billingType=${BILLINGTYPE} --param ocsUpgrade=${OCSUPGRADE}
+               --param clusterEncryption=${CLUSTERENCRYPTION} --param workerNodes=${WORKERNODES}"
 
     if [[ $OCP_VERSION == "4.7" ]]
     then
-      PARAM_STR+=" --param \"monSize=${MONSIZE}\" --param \"monStorageClassName=${MONSTORAGECLASSNAME}\" --param \"monDevicePaths=${MONDEVICEPATHS}\""
+      PARAM_STR+=" --param monSize=${MONSIZE} --param monStorageClassName=${MONSTORAGECLASSNAME} --param monDevicePaths=${MONDEVICEPATHS}"
     else
-      PARAM_STR+=" --param \"autoDiscoverDevices=${AUTODISCOVERDEVICES}\""
+      PARAM_STR+=" --param autoDiscoverDevices=${AUTODISCOVERDEVICES}"
       if [[ $OCP_VERSION == "4.10" ]]
       then
-        PARAM_STR+=" --param \"hpcsEncryption=${HPCSENCRYPTION}\" --param \"hpcsServiceName=${HPCSSERVICENAME}\" --param \"hpcsInstanceId=${HPCSINSTANCEID}\"
-                    --param \"hpcsSecretName=${HPCSSECRETNAME}\" --param \"hpcsBaseUrl=${HPCSBASEURL}\"  --param \"hpcsTokenUrl=${HPCSTOKENURL}\""
+        PARAM_STR+=" --param hpcsEncryption=${HPCSENCRYPTION} --param hpcsServiceName=${HPCSSERVICENAME} --param hpcsInstanceId=${HPCSINSTANCEID}
+                     --param hpcsSecretName=${HPCSSECRETNAME} --param hpcsBaseUrl=${HPCSBASEURL}  --param hpcsTokenUrl=${HPCSTOKENURL}"
       fi
     fi
     ibmcloud oc cluster addon enable openshift-data-foundation -c $CLUSTER_ID --version "${OCP_VERSION}.0" ${PARAM_STR} -f
