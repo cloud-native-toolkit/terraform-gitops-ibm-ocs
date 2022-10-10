@@ -1,8 +1,8 @@
 
-# Resource Group Variables
-variable "resource_group_name" {
+# provider.tf variables
+variable "region" {
   type        = string
-  description = "Existing resource group where the IKS cluster will be provisioned."
+  description = "The region where the cluster is deployed"
 }
 
 variable "ibmcloud_api_key" {
@@ -10,71 +10,57 @@ variable "ibmcloud_api_key" {
   description = "The api key for IBM Cloud access"
 }
 
-variable "region" {
+# provider.tf variables
+variable "git_token" {
   type        = string
-  description = "The region where the cluster is deployed"
+  description = "Git token"
 }
 
-variable "server_url" {
-  type        = string
+variable "git_username" {
 }
 
-variable "bootstrap_prefix" {
-  type = string
-  default = ""
-}
-
-variable "namespace" {
-  type        = string
-  description = "Namespace for tools"
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "The name of the cluster"
-  default     = ""
-}
-
-variable "cluster_type" {
-  type        = string
-  description = "The type of cluster that should be created (openshift or kubernetes)"
-  default = "ocp4"
-}
-
-variable "cluster_exists" {
-  type        = string
-  description = "Flag indicating if the cluster already exists (true or false)"
-  default     = "true"
-}
-
+# stage0.tf variables
 variable "name_prefix" {
   type        = string
   description = "Prefix name that should be used for the cluster and services. If not provided then resource_group_name will be used"
   default     = ""
 }
 
-variable "vpc_cluster" {
-  type        = bool
-  description = "Flag indicating that this is a vpc cluster"
-  default     = false
-}
+# stage1-cluster.tf variables
+# variable "worker_count" {
+#   type        = number
+#   description = "Number of worker nodes in cluster"
+#   value       = 3
+# }
 
-variable "git_token" {
+# variable "flavor" {
+#   type        = string
+#   description = "Type of worker nodes"
+#   value       = "bx2.16x64"
+# }
+
+# variable "ocp_version" {
+#   type        = string
+#   description = "Version of OpenShift"
+#   value       = "4.10"
+# }
+
+
+# stage1-gitops-bootstrap.tf variables
+# variable "bootstrap_prefix" {
+#   type = string
+#   default = ""
+# }
+
+# variable "kubeseal_namespace" {
+#   default = "sealed-secrets"
+# }
+
+# stage1-gitops.tf variables
+variable "namespace" {
   type        = string
-  description = "Git token"
-}
-
-variable "git_host" {
-  type        = string
-  default     = "github.com"
-}
-
-variable "git_type" {
-  default = "github"
-}
-
-variable "git_org" {
-  default = "cloud-native-toolkit-test"
+  description = "Namespace for tools"
+  default = "git-tools"
 }
 
 variable "git_repo" {
@@ -85,8 +71,15 @@ variable "gitops_namespace" {
   default = "openshift-gitops"
 }
 
-variable "git_username" {
+# stage1-resource-group.tf variable
+variable "resource_group_name" {
+  type        = string
+  description = "Existing resource group where the IKS cluster will be provisioned."
 }
-variable "kubeseal_namespace" {
-  default = "sealed-secrets"
+
+### ODF specific variables
+variable "osdSize" {
+  description = "Size of your storage devices. The total storage capacity of your ODF cluster is equivalent to the osdSize x 3 divided by the numOfOsd."
+  type = string
+  default = "250Gi"
 }

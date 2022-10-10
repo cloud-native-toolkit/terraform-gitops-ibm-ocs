@@ -1,5 +1,6 @@
 module "gitops_module" {
   source = "./module"
+#  source = "../../"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
@@ -7,4 +8,8 @@ module "gitops_module" {
   namespace = module.gitops_namespace.name
   kubeseal_cert = module.gitops.sealed_secrets_cert
   ibmcloud_api_key = var.ibmcloud_api_key
+
+  # ODF specific variables
+  osdSize = var.osdSize
 }
+
