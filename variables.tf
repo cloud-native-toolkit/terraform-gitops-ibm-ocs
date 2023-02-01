@@ -196,25 +196,25 @@ variable "hpcsTokenUrl" {
 }
 
 variable "default_rwx_storage_class" {
-  type        = "string"
+  type        = string
   description = "The default storage class that should be used for RWX volumes"
   default     = ""
 }
 
 variable "default_rwo_storage_class" {
-  type        = "string"
+  type        = string
   description = "The default storage class that should be used for RWO volumes"
   default     = ""
 }
 
 variable "default_file_storage_class" {
-  type        = "string"
+  type        = string
   description = "The default storage class that should be used for file volumes"
   default     = ""
 }
 
 variable "default_block_storage_class" {
-  type        = "string"
+  type        = string
   description = "The default storage class that should be used for block volumes"
   default     = "ibmc-vpc-block-10iops-tier"
 }

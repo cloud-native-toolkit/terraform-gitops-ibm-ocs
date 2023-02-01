@@ -35,6 +35,11 @@ output "type" {
   depends_on  = [gitops_module.module]
 }
 
+output "rwx_storage_class" {
+  value       = var.default_rwx_storage_class
+  depends_on  = [gitops_module.module]
+}
+
 output "rwo_storage_class" {
   value       = var.default_rwo_storage_class
   depends_on  = [gitops_module.module]
