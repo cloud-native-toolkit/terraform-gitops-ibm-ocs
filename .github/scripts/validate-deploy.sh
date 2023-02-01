@@ -43,5 +43,8 @@ validate_gitops_content "${NAMESPACE}" "${LAYER}" "${SERVER_NAME}" "${TYPE}" "${
 check_k8s_namespace "${NAMESPACE}"
 check_k8s_resource kube-system pod "ibm-ocs-operator-controller-manager"
 
+echo "**** Storage classes: ****"
+oc get storageclasses
+
 cd ..
 rm -rf .testrepo

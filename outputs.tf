@@ -34,3 +34,23 @@ output "type" {
   value       = local.type
   depends_on  = [gitops_module.module]
 }
+
+output "rwo_storage_class" {
+  value       = var.default_rwo_storage_class
+  depends_on  = [gitops_module.module]
+}
+
+output "file_storage_class" {
+  value       = var.default_file_storage_class
+  depends_on  = [gitops_module.module]
+}
+
+output "block_storage_class" {
+  value       = var.default_block_storage_class
+  depends_on  = [gitops_module.module]
+}
+
+output "storage_classes_provided" {
+  value      = []
+  depends_on  = [gitops_module.module]
+}
