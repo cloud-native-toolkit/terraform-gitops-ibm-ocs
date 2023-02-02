@@ -198,19 +198,19 @@ variable "hpcsTokenUrl" {
 variable "default_rwx_storage_class" {
   type        = string
   description = "The default storage class that should be used for RWX volumes"
-  default     = ""
+  default     = "ocs-storagecluster-cephfs"
 }
 
 variable "default_rwo_storage_class" {
   type        = string
   description = "The default storage class that should be used for RWO volumes"
-  default     = ""
+  default     = "ocs-storagecluster-ceph-rbd"
 }
 
 variable "default_file_storage_class" {
   type        = string
   description = "The default storage class that should be used for file volumes"
-  default     = ""
+  default     = "ocs-storagecluster-cephfs"
 }
 
 variable "default_block_storage_class" {

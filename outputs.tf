@@ -56,6 +56,15 @@ output "block_storage_class" {
 }
 
 output "storage_classes_provided" {
-  value      = []
+  value      = [
+    "ibmc-vpcblock-odf-10iops",
+    "ibmc-vpcblock-odf-5iops",
+    "ibmc-vpcblock-odf-custom",
+    "ibmc-vpcblock-odf-general",
+    "ibmc-vpcblock-odf-ret-10iops",
+    "ibmc-vpcblock-odf-ret-5iops",
+    "ibmc-vpcblock-odf-ret-custom",
+    "ibmc-vpcblock-odf-ret-general"
+  ]
   depends_on  = [gitops_module.module]
 }
