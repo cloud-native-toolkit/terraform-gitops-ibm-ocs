@@ -194,3 +194,27 @@ variable "hpcsTokenUrl" {
   type = string
   default = "false"
 }
+
+variable "default_rwx_storage_class" {
+  type        = string
+  description = "The default storage class that should be used for RWX volumes"
+  default     = "ocs-storagecluster-cephfs"
+}
+
+variable "default_rwo_storage_class" {
+  type        = string
+  description = "The default storage class that should be used for RWO volumes"
+  default     = "ocs-storagecluster-ceph-rbd"
+}
+
+variable "default_file_storage_class" {
+  type        = string
+  description = "The default storage class that should be used for file volumes"
+  default     = "ocs-storagecluster-cephfs"
+}
+
+variable "default_block_storage_class" {
+  type        = string
+  description = "The default storage class that should be used for block volumes"
+  default     = "ibmc-vpc-block-10iops-tier"
+}
