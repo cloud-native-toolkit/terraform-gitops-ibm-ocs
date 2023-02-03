@@ -204,6 +204,238 @@ versions:
         description: Enter https://iam.cloud.ibm.com/oidc/token
         type: string
         default: 'false'
+      - name: default_rwx_storage_class
+        type: string
+        description: The default storage class that should be used for RWX volumes
+        default: ocs-storagecluster-cephfs
+      - name: default_rwo_storage_class
+        type: string
+        description: The default storage class that should be used for RWO volumes
+        default: ocs-storagecluster-ceph-rbd
+      - name: default_file_storage_class
+        type: string
+        description: The default storage class that should be used for file volumes
+        default: ocs-storagecluster-cephfs
+      - name: default_block_storage_class
+        type: string
+        description: The default storage class that should be used for block volumes
+        default: ibmc-vpc-block-10iops-tier
+    version: v0.4.0
+    outputs:
+      - name: name
+        description: The name of the module
+      - name: branch
+        description: The branch where the module config has been placed
+      - name: namespace
+        description: The namespace where the module will be deployed
+      - name: server_name
+        description: The server where the module will be deployed
+      - name: layer
+        description: The layer where the module is deployed
+      - name: type
+        description: The type of module where the module is deployed
+      - name: rwx_storage_class
+      - name: rwo_storage_class
+      - name: file_storage_class
+      - name: block_storage_class
+      - name: storage_classes_provided
+  - platforms:
+      - kubernetes
+      - ocp3
+      - ocp4
+    providers:
+      - name: gitops
+        source: cloud-native-toolkit/gitops
+    dependencies:
+      - id: gitops
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
+            version: '>= 1.1.0'
+      - id: namespace
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
+            version: '>= 1.0.0'
+    variables:
+      - name: gitops_config
+        type: |-
+          object({
+              boostrap = object({
+                argocd-config = object({
+                  project = string
+                  repo = string
+                  url = string
+                  path = string
+                })
+              })
+              infrastructure = object({
+                argocd-config = object({
+                  project = string
+                  repo = string
+                  url = string
+                  path = string
+                })
+                payload = object({
+                  repo = string
+                  url = string
+                  path = string
+                })
+              })
+              services = object({
+                argocd-config = object({
+                  project = string
+                  repo = string
+                  url = string
+                  path = string
+                })
+                payload = object({
+                  repo = string
+                  url = string
+                  path = string
+                })
+              })
+              applications = object({
+                argocd-config = object({
+                  project = string
+                  repo = string
+                  url = string
+                  path = string
+                })
+                payload = object({
+                  repo = string
+                  url = string
+                  path = string
+                })
+              })
+            })
+        description: Config information regarding the gitops repo structure
+        moduleRef:
+          id: gitops
+          output: gitops_config
+      - name: git_credentials
+        type: |-
+          list(object({
+              repo = string
+              url = string
+              username = string
+              token = string
+            }))
+        description: The credentials for the gitops repo(s)
+        sensitive: true
+        moduleRef:
+          id: gitops
+          output: git_credentials
+      - name: namespace
+        type: string
+        description: The namespace where the application should be deployed
+        moduleRef:
+          id: namespace
+          output: name
+      - name: kubeseal_cert
+        type: string
+        description: The certificate/public key used to encrypt the sealed secrets
+        default: ''
+        moduleRef:
+          id: gitops
+          output: sealed_secrets_cert
+      - name: server_name
+        type: string
+        description: The name of the server
+        default: default
+        moduleRef:
+          id: gitops
+          output: server_name
+      - name: ibmcloud_api_key
+        type: string
+        description: The api key for IBM Cloud access
+        scope: global
+      - name: osdStorageClassName
+        description: Storage class that you want to use for your OSD devices
+        type: string
+        default: ibmc-vpc-block-metro-10iops-tier
+      - name: osdDevicePaths
+        description: >-
+          Please provide IDs of the disks to be used for OSD pods if using local
+          disks or standard classic cluster
+        type: string
+        default: ''
+      - name: osdSize
+        description: >-
+          Size of your storage devices. The total storage capacity of your ODF
+          cluster is equivalent to the osdSize x 3 divided by the numOfOsd.
+        type: string
+        default: 250Gi
+      - name: numOfOsd
+        description: >-
+          Number object storage daemons (OSDs) that you want to create. ODF
+          creates three times the numOfOsd value.
+        default: '"1"'
+      - name: billingType
+        description: Billing Type for your ODF deployment (`essentials` or `advanced`).
+        type: string
+        default: advanced
+      - name: ocsUpgrade
+        description: Whether to upgrade the major version of your ODF deployment.
+        default: '"false"'
+      - name: clusterEncryption
+        description: Enable encryption of storage cluster
+        default: '"false"'
+      - name: workerNodes
+        description: Install on which worker nodes
+        type: string
+        default: all
+      - name: monSize
+        description: >-
+          Size of the storage devices that you want to provision for the monitor
+          pods. The devices must be at least 20Gi each
+        type: string
+        default: 20Gi
+      - name: monStorageClassName
+        description: >-
+          Storage class to use for your Monitor pods. For VPC clusters you must
+          specify a block storage class
+        type: string
+        default: ibmc-vpc-block-metro-10iops-tier
+      - name: monDevicePaths
+        description: >-
+          Please provide IDs of the disks to be used for mon pods if using local
+          disks or standard classic cluster
+        type: string
+        default: ''
+      - name: autoDiscoverDevices
+        description: Auto Discover Devices
+        type: string
+        default: 'false'
+      - name: hpcsEncryption
+        description: Use Hyper Protect Crypto Services
+        default: '"false"'
+      - name: hpcsServiceName
+        description: >-
+          Enter the name of your Hyper Protect Crypto Services instance. For
+          example: Hyper-Protect-Crypto-Services-eugb
+        type: string
+        default: 'false'
+      - name: hpcsInstanceId
+        description: >-
+          Enter your Hyper Protect Crypto Services instance ID. For example:
+          d11a1a43-aa0a-40a3-aaa9-5aaa63147aaa
+        type: string
+        default: 'false'
+      - name: hpcsSecretName
+        description: >-
+          Enter the name of the secret that you created by using your Hyper
+          Protect Crypto Services credentials. For example: ibm-hpcs-secret
+        type: string
+        default: 'false'
+      - name: hpcsBaseUrl
+        description: >-
+          Enter the public endpoint of your Hyper Protect Crypto Services
+          instance. For example: https://api.eu-gb.hs-crypto.cloud.ibm.com:8389
+        type: string
+        default: 'false'
+      - name: hpcsTokenUrl
+        description: Enter https://iam.cloud.ibm.com/oidc/token
+        type: string
+        default: 'false'
     version: v0.3.1
     outputs:
       - name: name
@@ -1122,3 +1354,5 @@ versions:
       - name: type
         description: The type of module where the module is deployed
 id: github.com/cloud-native-toolkit/terraform-gitops-ibm-odf
+interfaces:
+  - github.com/cloud-native-toolkit/automation-modules#cluster-storage
